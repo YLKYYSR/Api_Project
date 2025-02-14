@@ -5,10 +5,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@Data
-@ApiModel("用户注册实体表单")
-public class UserRegisterDto implements Serializable {
-    private String username;
-    private String password;
-    private String checkpassword;
-}
+
+    @Data
+    @ApiModel("用户注册实体表单")
+    public class userRegisterDto implements Serializable {
+        private String username;
+        private String password;
+        private String checkpassword;
+    }
+
