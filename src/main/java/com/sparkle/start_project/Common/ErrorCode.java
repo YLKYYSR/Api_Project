@@ -9,6 +9,7 @@ public enum ErrorCode {
     NULL_PARAM(2002,"参数为空",""),
     NO_LOGIN(2003,"未登录",""),
     NO_PERMISSIONS(2004,"无权限",""),
+    OPERATE_ERROR(2005,"操作失败","") ,
     SYS_ERROR(5000,"系统错误","");
 
     private final int code;

@@ -1,5 +1,7 @@
 package com.sparkle.start_project.Common;
 
+
+//后期可以优化
 public enum UserStatus {
     ISDELETE(1,"已删除"),
     NOTDELETE(0,"未删除");
