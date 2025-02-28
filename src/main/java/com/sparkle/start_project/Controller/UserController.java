@@ -7,8 +7,10 @@ import com.sparkle.start_project.Annotation.AouthCheck;
 import com.sparkle.start_project.Common.BaseResponse;
 import com.sparkle.start_project.Common.ErrorCode;
 import com.sparkle.start_project.Common.RusltUtils;
+import com.sparkle.start_project.Constant.adminDeleteDto;
 import com.sparkle.start_project.Constant.userConstant;
-import com.sparkle.start_project.Domain.dto.*;
+
+import com.sparkle.start_project.Domain.dto.user.*;
 import com.sparkle.start_project.Domain.entity.User;
 import com.sparkle.start_project.Domain.vo.UserVo;
 import com.sparkle.start_project.Exception.BusinessException;
@@ -164,7 +166,8 @@ public class UserController {
         return RusltUtils.success(b);
     }
 
-    @ApiOperation("更新用户")
+    //管理员更新用户信息
+    @ApiOperation("管理员更新用户")
     @PostMapping("/update/user")
     @AouthCheck(mustCheck = userConstant.ADMIN)
     public BaseResponse<Boolean> userUpdate(@RequestBody adminUpdateDto adminUpdateDto, HttpServletRequest request) {
@@ -178,7 +181,8 @@ public class UserController {
         return RusltUtils.success(true);
     }
 
-    @ApiOperation("更新用户")
+
+    @ApiOperation("用户自己更新用户")
     @PostMapping("/update/userVo")
     public BaseResponse<Boolean> userVoUpdate(@RequestBody userUpdateDto userUpdateDto, HttpServletRequest request) {
         if (userUpdateDto == null) {
@@ -196,8 +200,8 @@ public class UserController {
     @ApiOperation("根据id获取user")
     @GetMapping("/getuser")
     @AouthCheck(mustCheck = userConstant.ADMIN)
-    public BaseResponse<User> getUserById(Long id,HttpServletRequest request) {
-        if (id <=0) {
+    public BaseResponse<User> getUserById(Long id, HttpServletRequest request) {
+        if (id <= 0) {
             throw new BusinessException(ErrorCode.ERROR_PARAM);
         }
         User user = userServiceImpl.getById(id);
@@ -206,8 +210,7 @@ public class UserController {
 
     @ApiOperation("根据id获取userVo")
     @GetMapping("/getuservo")
-    @AouthCheck(mustCheck = userConstant.ADMIN)
-    public BaseResponse<UserVo> getUserVoById(Long id,HttpServletRequest request) {
+    public BaseResponse<UserVo> getUserVoById(Long id, HttpServletRequest request) {
 //        if (id <=0) {
 //            throw new BusinessException(ErrorCode.ERROR_PARAM);
 //        }
@@ -222,20 +225,20 @@ public class UserController {
 
     //需要管理员权限
     @ApiOperation("分页获取user")
-    @GetMapping("/page")
+    @PostMapping("/page")
     @AouthCheck(mustCheck = userConstant.ADMIN)
     BaseResponse<Page<User>> getUserPage(@RequestBody userQueryDto userQueryDto, HttpServletRequest request) {
         if (userQueryDto == null || userQueryDto.getId() <= 0) {
             throw new BusinessException(ErrorCode.ERROR_PARAM);
         }
-        Integer userRole = userQueryDto.getUserRole();
+        int pageSize = userQueryDto.getPageSize();
         int currentPage = userQueryDto.getCurrentPage();
-        Page<User> page = userServiceImpl.page(new Page<>(currentPage, userRole), userServiceImpl.getUserVoQueue(userQueryDto));
+        Page<User> page = userServiceImpl.page(new Page<>(currentPage, pageSize), userServiceImpl.getUserVoQueue(userQueryDto));
         return RusltUtils.success(page);
     }
 
     @ApiOperation("分页获取Vo用户")
-    @GetMapping("/page/vo")
+    @PostMapping("/page/vo")
     BaseResponse<Page<UserVo>> getPageUserVo(@RequestBody userQueryDto userQueryDto, HttpServletRequest request) {
         //判空
         if (userQueryDto == null) {
@@ -248,9 +251,16 @@ public class UserController {
         Page<User> page = userServiceImpl.page(new Page<>(currentPage, pageSize), userServiceImpl.getUserVoQueue(userQueryDto));
         //将Page<User>转换为Page<UserVo>
         List<UserVo> userVos = page.getRecords().
-                stream().
-                map(user -> userServiceImpl.getUserVo(user)).
-                toList();
+                stream()
+//                .map(a ->{
+//                    //该方法可以抽象出去
+//                    UserVo userVo = new UserVo();
+//                    BeanUtils.copyProperties(a, userVo);
+//                    return userVo;
+//                })
+                .map(user -> userServiceImpl.getUserVo(user))
+
+                .collect(Collectors.toList());
         //创建UserVo分页对象
         Page<UserVo> userVoPage = new Page<>(currentPage, pageSize, page.getTotal());
         userVoPage.setRecords(userVos);

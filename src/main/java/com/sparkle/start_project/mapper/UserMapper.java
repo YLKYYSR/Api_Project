@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author Sparkle
  * @since 2025-01-23
  */
+//插件没有该注释
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 }

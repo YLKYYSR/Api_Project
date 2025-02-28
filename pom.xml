@@ -106,8 +106,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
             <version>3.4.2</version>
         </dependency>
-
-
+<!--        引入本地的sdk包-->
+        <dependency>
+            <groupId>com.Sparkle</groupId>
+            <artifactId>Api_Client_Sdk</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -11,7 +11,7 @@ mybatis-plus:
 
 spring:
   application:
-    name: Start_Project
+    name: Api_Project
   datasource:
     url: jdbc:mysql://localhost:3306/usercenter?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,3 +24,18 @@ spring:
 #      dev
 server:
   port: 8123
+
+
+knife4j:
+  enable: true
+  basic:
+    enable: true
+    # Basic认证用户名
+    username: test
+    # Basic认证密码
+    password: 123456
+
+api:
+  client:
+    access-key: Sparkle
+    secret-key: 123456

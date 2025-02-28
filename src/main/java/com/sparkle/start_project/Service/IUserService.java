@@ -1,14 +1,13 @@
-package com.sparkle.start_project.service;
+package com.sparkle.start_project.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.sparkle.start_project.Domain.dto.userQueryDto;
-import com.sparkle.start_project.Domain.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sparkle.start_project.Domain.dto.user.userQueryDto;
+import com.sparkle.start_project.Domain.entity.User;
 import com.sparkle.start_project.Domain.vo.UserVo;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
-import java.util.Queue;
 
 /**
  * <p>
